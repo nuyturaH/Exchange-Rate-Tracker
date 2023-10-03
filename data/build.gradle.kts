@@ -4,6 +4,10 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "com.harutyun.data"
     compileSdk = Versions.Build.compileSdk
 
@@ -12,6 +16,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "BASE_URL", "\"https://api.apilayer.com/exchangerates_data/\"")
+        buildConfigField("String", "API_KEY", "\"bEBq0KcK9o9yTi0TnqeR8gPYbAQoVEWZ\"")
     }
 
     buildTypes {
@@ -37,6 +44,13 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(Libs.AndroidX.coreKtx)
+
+    // Retrofit
+    implementation(Libs.Retrofit.retrofit)
+    implementation(Libs.Retrofit.converterMoshi)
+
+    // Okhttp
+    implementation(Libs.Okhttp.loggingInterceptor)
 
     testImplementation(Libs.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.junit)

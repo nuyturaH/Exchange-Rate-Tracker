@@ -39,6 +39,16 @@ object Libs {
         const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:$daggerVersion"
     }
 
+    object Retrofit {
+        const val retrofitVersion = "2.9.0"
+        const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+        const val converterMoshi = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    }
+
+    object Okhttp {
+        const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    }
+
     object Test {
         const val junit = "junit:junit:4.13.2"
     }

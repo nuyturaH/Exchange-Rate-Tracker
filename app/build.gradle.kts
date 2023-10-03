@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -41,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
     packaging {
         resources {
@@ -52,12 +54,13 @@ android {
 
 dependencies {
 
+    implementation(project(":domain"))
     implementation(project(":data"))
 
     implementation(Libs.AndroidX.coreKtx)
 
-    implementation(Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx)
 
+    // UI
     implementation(Libs.AndroidX.Activity.activityCompose)
     implementation(platform(Libs.AndroidX.Compose.composeBom))
     implementation(Libs.AndroidX.Compose.ui)
@@ -65,14 +68,28 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.material3)
 
+    // Lifecycle
+    implementation(Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx)
+
+    // Navigation
     implementation (Libs.AndroidX.Navigation.navigationCompose)
 
+    // DI
+    implementation(Libs.Dagger.hiltAndroid)
+    ksp(Libs.Dagger.hiltAndroidCompiler)
+
+    // Retrofit
+    implementation(Libs.Retrofit.retrofit)
+    implementation(Libs.Retrofit.converterMoshi)
+
+    // Test
     testImplementation(Libs.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.espressoCore)
     androidTestImplementation(platform(Libs.AndroidX.Compose.composeBom))
     androidTestImplementation(Libs.AndroidX.Compose.uiTestJunit4)
 
+    // Debug
     debugImplementation(Libs.AndroidX.Compose.uiTooling)
     debugImplementation(Libs.AndroidX.Compose.uiTestManifest)
 }
