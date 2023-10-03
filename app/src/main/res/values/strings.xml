@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Exchange Rate Tracker</string>
+    <string name="currencies">Currencies</string>
+    <string name="favorites">Favorites</string>
 </resources>

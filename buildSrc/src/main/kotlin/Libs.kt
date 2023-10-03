@@ -23,6 +23,10 @@ object Libs {
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
         }
 
+        object Navigation {
+            const val navigationCompose = "androidx.navigation:navigation-compose:2.7.3"
+        }
+
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.5"
             const val espressoCore = "androidx.test.espresso:espresso-core:3.5.1"

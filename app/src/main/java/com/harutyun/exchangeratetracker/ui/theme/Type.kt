@@ -16,34 +16,28 @@ val inter = FontFamily(
     )
 )
 
-// Set of Material typography styles to start with
 val Typography = Typography(
     bodyMedium = TextStyle(
-        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
     bodyLarge = TextStyle(
-        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp
     ),
     headlineLarge = TextStyle(
-        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp
     ),
     headlineMedium = TextStyle(
-        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
     titleMedium = TextStyle(
-        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp
