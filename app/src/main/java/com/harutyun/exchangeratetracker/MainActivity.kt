@@ -9,7 +9,9 @@ import com.harutyun.exchangeratetracker.ui.BottomNavItem
 import com.harutyun.exchangeratetracker.ui.NavigationGraph
 import com.harutyun.exchangeratetracker.ui.components.BottomNavigationBar
 import com.harutyun.exchangeratetracker.ui.theme.ExchangeRateTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

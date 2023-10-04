@@ -6,6 +6,7 @@ object Libs {
         object Lifecycle {
             private const val lifecycleVersion = "2.6.2"
             const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+            const val lifecycleRuntimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
         }
 
         object Activity {
@@ -26,6 +27,13 @@ object Libs {
         object Navigation {
             const val navigationCompose = "androidx.navigation:navigation-compose:2.7.3"
         }
+
+
+        object Hilt {
+            const val navigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+        }
+
+
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.5"

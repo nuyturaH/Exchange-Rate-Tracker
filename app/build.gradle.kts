@@ -70,6 +70,7 @@ dependencies {
 
     // Lifecycle
     implementation(Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx)
+    implementation(Libs.AndroidX.Lifecycle.lifecycleRuntimeCompose)
 
     // Navigation
     implementation (Libs.AndroidX.Navigation.navigationCompose)
@@ -77,6 +78,8 @@ dependencies {
     // DI
     implementation(Libs.Dagger.hiltAndroid)
     ksp(Libs.Dagger.hiltAndroidCompiler)
+    implementation (Libs.AndroidX.Hilt.navigationCompose)
+
 
     // Retrofit
     implementation(Libs.Retrofit.retrofit)

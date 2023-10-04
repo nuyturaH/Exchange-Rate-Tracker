@@ -56,6 +56,7 @@ import com.harutyun.exchangeratetracker.util.pxToDp
 
 @Composable
 fun DropDownMenu(
+    modifier: Modifier = Modifier,
     items: List<String>,
     initialText: String,
     onItemSelected: (String) -> Unit
@@ -67,7 +68,7 @@ fun DropDownMenu(
 
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(48.dp)
             .fillMaxWidth()
             .onSizeChanged {
