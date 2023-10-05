@@ -2,4 +2,12 @@
     <string name="app_name">Exchange Rate Tracker</string>
     <string name="currencies">Currencies</string>
     <string name="favorites">Favorites</string>
+    <string name="filters">Filters</string>
+    <string name="sort_by">Sort by</string>
+    <string name="retry">Retry</string>
+    <string name="apply">Apply</string>
+    <string name="code_a_z">Code A-Z</string>
+    <string name="code_z_a">Code Z-A</string>
+    <string name="quote_asc">Quote Asc.</string>
+    <string name="quote_desc">Quote Desc.</string>
 </resources>

@@ -37,16 +37,18 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AppBar(
+    modifier: Modifier = Modifier,
     title: String,
     showBackButton: Boolean,
     onBackClick: () -> Unit = {},
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.primaryContainer),
+        verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier.padding(
@@ -72,12 +74,7 @@ fun AppBar(
             )
         }
         Box(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 12.dp,
-                bottom = 16.dp,
-                top = 8.dp
-            )
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             content()
         }

@@ -18,6 +18,7 @@ val inter = FontFamily(
 
 val Typography = Typography(
     bodyMedium = TextStyle(
+        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
@@ -28,18 +29,33 @@ val Typography = Typography(
         fontSize = 16.sp
     ),
     headlineLarge = TextStyle(
+        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp
     ),
     headlineMedium = TextStyle(
+        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
     titleMedium = TextStyle(
+        color = TextDefaultBlack,
         fontFamily = inter,
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp
+    ),
+    titleSmall = TextStyle(
+        color = TextSecondaryGrey,
+        fontFamily = inter,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp
+    ),
+    displayMedium = TextStyle(
+        color = TextDefaultBlack,
+        fontFamily = inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
     )
 )

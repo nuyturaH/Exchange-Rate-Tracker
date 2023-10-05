@@ -40,16 +40,18 @@ import com.harutyun.domain.model.Currency
 import com.harutyun.exchangeratetracker.R
 import com.harutyun.exchangeratetracker.ui.components.AppBar
 import com.harutyun.exchangeratetracker.ui.components.DropDownMenu
+import com.harutyun.exchangeratetracker.ui.theme.TextDefaultBlack
 import com.harutyun.exchangeratetracker.ui.theme.Yellow
 
 @Composable
-fun CurrenciesScreen(currenciesViesModel: CurrenciesViesModel = hiltViewModel()) {
+fun CurrenciesScreen(currenciesViesModel: CurrenciesViesModel = hiltViewModel(), onFilterClick: () -> Unit) {
     val uiState by currenciesViesModel.uiState.collectAsStateWithLifecycle()
 
     CurrenciesContent(
         uiState = uiState,
         onRetry = { currenciesViesModel.getExchangeRates(uiState.baseCurrencyName) },
-        onBaseCurrencySelected = { selectedItem -> currenciesViesModel.getExchangeRates(selectedItem) }
+        onBaseCurrencySelected = { selectedItem -> currenciesViesModel.getExchangeRates(selectedItem) },
+        onFilterClick = onFilterClick
     )
 }
 
@@ -57,7 +59,8 @@ fun CurrenciesScreen(currenciesViesModel: CurrenciesViesModel = hiltViewModel())
 private fun CurrenciesContent(
     uiState: CurrenciesUiState,
     onBaseCurrencySelected: (String) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onFilterClick: () -> Unit
 ) {
     Scaffold(topBar = {
         AppBar(title = stringResource(R.string.currencies), showBackButton = false) {
@@ -72,7 +75,9 @@ private fun CurrenciesContent(
             var selectedText by remember { mutableStateOf(uiState.baseCurrencyName) }
 //            var isClickable by remember { mutableStateOf(true) }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp, top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -87,7 +92,7 @@ private fun CurrenciesContent(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 FilterButton {
-
+                    onFilterClick()
                 }
             }
         }
@@ -139,7 +144,8 @@ fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency) -> Unit)
                             ) {
                                 Text(
                                     text = item.rate.toString(),
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = TextDefaultBlack
                                 )
 
                                 IconButton(onClick = {
@@ -206,7 +212,7 @@ fun ErrorScreen(message: String, onRetryClicked: () -> Unit) {
         Text(text = message)
         Spacer(Modifier.height(16.dp))
         Button(onClick = { onRetryClicked() }) {
-            Text("Retry")
+            Text(stringResource(R.string.retry))
         }
     }
 }

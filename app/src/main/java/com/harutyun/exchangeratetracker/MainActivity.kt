@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Scaffold
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.harutyun.exchangeratetracker.ui.BottomNavItem
 import com.harutyun.exchangeratetracker.ui.NavigationGraph
@@ -18,12 +19,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             ExchangeRateTrackerTheme {
                 val navController = rememberNavController()
-
+                val screens = listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
+                val showBottomBar =
+                    navController.currentBackStackEntryAsState().value?.destination?.route in screens.map { it.route }
                 Scaffold(
                     bottomBar = {
-                        BottomNavigationBar(
-                            listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
-                        )
+                        if (showBottomBar) {
+                            BottomNavigationBar(
+                                listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
+                            )
+                        }
                     },
                 ) { innerPadding ->
                     NavigationGraph(navController = navController, padding = innerPadding)

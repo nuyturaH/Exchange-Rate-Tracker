@@ -68,7 +68,7 @@ fun ShimmerListItem(
                     Box(
                         modifier = Modifier
                             .height(24.dp)
-                            .width(76.dp)
+                            .width(100.dp)
                             .clip(MaterialTheme.shapes.small)
                             .shimmerEffect(),
                     )
