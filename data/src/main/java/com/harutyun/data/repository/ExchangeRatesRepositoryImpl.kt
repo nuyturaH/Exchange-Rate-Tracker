@@ -23,7 +23,7 @@ class ExchangeRatesRepositoryImpl(
                     exchangeRateRemoteDataSource.getExchangeRatesByBaseCurrency(baseCurrencyName)
                 if (data.isSuccessful) {
                     val response: ExchangeRatesResponseNetworkEntity? = data.body()
-                    if (response != null) {
+                    if (response != null && response.rates.isNotEmpty()) {
                         NetworkResponse.Success(exchangeRatesMapper.mapToDomain(response))
                     } else {
                         NetworkResponse.Failure("No data")

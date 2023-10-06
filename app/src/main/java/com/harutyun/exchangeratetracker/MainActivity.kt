@@ -3,12 +3,13 @@ package com.harutyun.exchangeratetracker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Scaffold
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.harutyun.exchangeratetracker.ui.BottomNavItem
-import com.harutyun.exchangeratetracker.ui.NavigationGraph
 import com.harutyun.exchangeratetracker.ui.components.BottomNavigationBar
+import com.harutyun.exchangeratetracker.ui.navigation.BottomNavItem
+import com.harutyun.exchangeratetracker.ui.navigation.NavigationGraph
 import com.harutyun.exchangeratetracker.ui.theme.ExchangeRateTrackerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,10 +25,10 @@ class MainActivity : ComponentActivity() {
                     navController.currentBackStackEntryAsState().value?.destination?.route in screens.map { it.route }
                 Scaffold(
                     bottomBar = {
-                        if (showBottomBar) {
-                            BottomNavigationBar(
-                                listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
-                            )
+                            AnimatedVisibility(visible = showBottomBar) {
+                                BottomNavigationBar(
+                                    listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
+                                )
                         }
                     },
                 ) { innerPadding ->

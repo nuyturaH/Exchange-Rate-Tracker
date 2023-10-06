@@ -66,14 +66,12 @@ private fun CurrenciesContent(
         AppBar(title = stringResource(R.string.currencies), showBackButton = false) {
             var items: List<String> = listOf()
 
-            when (uiState) {
-                is CurrenciesUiState.Success -> items = uiState.rates.map { x -> x.name }
-
+            when (uiState.currencyListUiState) {
+                is CurrencyListUiState.Success -> items = uiState.currenciesDropDown
                 else -> {}
             }
 
             var selectedText by remember { mutableStateOf(uiState.baseCurrencyName) }
-//            var isClickable by remember { mutableStateOf(true) }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,12 +96,11 @@ private fun CurrenciesContent(
         }
     }) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
-            when (uiState) {
-                is CurrenciesUiState.Loading -> CurrenciesShimmer()
-                is CurrenciesUiState.Error -> ErrorScreen(uiState.errorMessage, onRetry)
-                is CurrenciesUiState.NoData -> ErrorScreen("No Data", onRetry)
-                is CurrenciesUiState.Success -> Currencies(
-                    items = uiState.rates,
+            when (uiState.currencyListUiState) {
+                is CurrencyListUiState.Loading -> CurrenciesShimmer()
+                is CurrencyListUiState.Error -> ErrorScreen(uiState.currencyListUiState.errorMessage, onRetry)
+                is CurrencyListUiState.Success -> Currencies(
+                    items = uiState.currencyListUiState.currencyList,
                     onItemFavoriteClicked = {})
             }
 

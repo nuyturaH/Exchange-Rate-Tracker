@@ -25,15 +25,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +56,7 @@ import com.harutyun.exchangeratetracker.R
 import com.harutyun.exchangeratetracker.ui.theme.LightPrimaryBlue
 import com.harutyun.exchangeratetracker.util.dpToPx
 import com.harutyun.exchangeratetracker.util.pxToDp
+import kotlinx.coroutines.launch
 
 @Composable
 fun DropDownMenu(
@@ -128,7 +132,6 @@ fun DropDownMenu(
             .padding(top = 48.dp)
     )
 }
-
 
 
 @Composable
@@ -240,10 +243,22 @@ private fun DropDownPopup(
                         exit = exit,
                         modifier = modifier
                     ) {
+                        val state = rememberLazyListState()
+                        val coroutineScope = rememberCoroutineScope()
+
+                        LaunchedEffect(state) {
+                            coroutineScope.launch {
+                                if (selectedText in items) {
+                                    state.scrollToItem(items.indexOf(selectedText))
+                                }
+                            }
+                        }
+
                         LazyColumn(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .animateContentSize(),
+                            state = state,
                             content = {
                                 items(items.size) { index ->
                                     val item = items[index]

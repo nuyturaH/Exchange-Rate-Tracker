@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.harutyun.exchangeratetracker.ui.BottomNavItem
+import com.harutyun.exchangeratetracker.ui.navigation.BottomNavItem
 
 @Composable
 fun BottomNavigationBar(list: List<BottomNavItem>) {

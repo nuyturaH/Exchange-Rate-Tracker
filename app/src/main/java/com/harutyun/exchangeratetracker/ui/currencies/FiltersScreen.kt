@@ -24,6 +24,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.harutyun.domain.model.SortOption
 import com.harutyun.exchangeratetracker.R
 import com.harutyun.exchangeratetracker.ui.components.AppBar
 
@@ -35,16 +36,19 @@ fun FiltersScreen(
     val uiState by currenciesViesModel.uiState.collectAsStateWithLifecycle()
 
     FiltersContent(
-        /*uiState = uiState,*/
-        onApply =  {/*currenciesViesModel.sort(uiState.sortOption)*/ onBackClick()},
+        uiState = uiState,
+        onApply = { sortOption ->
+            currenciesViesModel.sortExchangeRatesList(sortOption)
+            onBackClick()
+        },
         onBackClick = onBackClick
     )
 }
 
 @Composable
 fun FiltersContent(
-    uiState: FiltersUiState = FiltersUiState(),
-    onApply: () -> Unit,
+    uiState: CurrenciesUiState,
+    onApply: (SortOption) -> Unit,
     onBackClick: () -> Unit
 ) {
 
@@ -61,7 +65,7 @@ fun FiltersContent(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            var sortOption by remember { mutableStateOf(SortOption.CODE_A_Z) }
+            var sortOption by remember { mutableStateOf(uiState.sortOption) }
 
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -76,7 +80,7 @@ fun FiltersContent(
             }
 
             Button(
-                onClick = { onApply() },
+                onClick = { onApply(sortOption) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
