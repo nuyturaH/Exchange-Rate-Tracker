@@ -9,13 +9,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.harutyun.exchangeratetracker.ui.currencies.CurrenciesScreen
 import com.harutyun.exchangeratetracker.ui.currencies.FiltersScreen
+import com.harutyun.exchangeratetracker.ui.favorites.FavoritesScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController, padding: PaddingValues) {
@@ -23,18 +22,6 @@ fun NavigationGraph(navController: NavHostController, padding: PaddingValues) {
         modifier = Modifier.padding(padding),
         navController = navController,
         route = NavigationRoutes.MainNavGraph.route,
-        startDestination = NavigationRoutes.CurrenciesNavGraph.route
-    ) {
-        currenciesNavGraph(navController = navController)
-
-        composable(BottomNavItem.Favourites.route) {
-//            Todo FavouritesScreen()
-        }
-    }
-}
-fun NavGraphBuilder.currenciesNavGraph(navController: NavHostController) {
-    navigation(
-        route = NavigationRoutes.CurrenciesNavGraph.route,
         startDestination = BottomNavItem.Currencies.route
     ) {
         composable(route = BottomNavItem.Currencies.route) {
@@ -44,16 +31,18 @@ fun NavGraphBuilder.currenciesNavGraph(navController: NavHostController) {
             )
         }
 
-
         composable(route = NavigationRoutes.Filters.route) {
-            FiltersScreen(onBackClick = { navController.navigateUp() },
+            FiltersScreen(
+                onBackClick = { navController.navigateUp() },
                 currenciesViesModel = it.sharedViewModel(navController)
             )
         }
 
+        composable(BottomNavItem.Favourites.route) {
+            FavoritesScreen()
+        }
     }
 }
-
 
 
 @Composable

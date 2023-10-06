@@ -25,7 +25,7 @@ object Libs {
         }
 
         object Navigation {
-            const val navigationCompose = "androidx.navigation:navigation-compose:2.7.3"
+            const val navigationCompose = "androidx.navigation:navigation-compose:2.7.4"
         }
 
 

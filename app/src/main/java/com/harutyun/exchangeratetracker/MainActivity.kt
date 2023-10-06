@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                             AnimatedVisibility(visible = showBottomBar) {
                                 BottomNavigationBar(
-                                    listOf(BottomNavItem.Currencies, BottomNavItem.Favourites)
+                                    list = listOf(BottomNavItem.Currencies, BottomNavItem.Favourites),
+                                    navController = navController
                                 )
                         }
                     },

@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 fun AppBar(
     modifier: Modifier = Modifier,
     title: String,
-    showBackButton: Boolean,
+    showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {

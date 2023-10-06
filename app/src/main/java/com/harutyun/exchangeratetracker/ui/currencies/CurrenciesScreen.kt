@@ -63,7 +63,7 @@ private fun CurrenciesContent(
     onFilterClick: () -> Unit
 ) {
     Scaffold(topBar = {
-        AppBar(title = stringResource(R.string.currencies), showBackButton = false) {
+        AppBar(title = stringResource(R.string.currencies)) {
             var items: List<String> = listOf()
 
             when (uiState.currencyListUiState) {

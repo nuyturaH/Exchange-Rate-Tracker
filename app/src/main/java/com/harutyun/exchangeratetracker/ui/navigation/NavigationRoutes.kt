@@ -6,7 +6,6 @@ import com.harutyun.exchangeratetracker.R
 
 sealed class NavigationRoutes(val route: String) {
     data object MainNavGraph : NavigationRoutes("mainNavGraph")
-    data object CurrenciesNavGraph : NavigationRoutes("currenciesNavGraph")
 
     data object Filters : NavigationRoutes("filters")
 }
