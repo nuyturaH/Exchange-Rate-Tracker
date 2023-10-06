@@ -38,7 +38,7 @@ private fun FavoritesContent(
                 is FavoritesUiState.Loading -> CurrenciesShimmer()
                 is FavoritesUiState.Success -> Currencies(
                     items = list,
-                    onItemFavoriteClicked = {})
+                    onItemFavoriteClicked = {currency, b ->  })
             }
         }
     }

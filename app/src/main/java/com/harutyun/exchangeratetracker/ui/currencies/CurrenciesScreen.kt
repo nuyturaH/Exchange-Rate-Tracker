@@ -44,14 +44,21 @@ import com.harutyun.exchangeratetracker.ui.theme.TextDefaultBlack
 import com.harutyun.exchangeratetracker.ui.theme.Yellow
 
 @Composable
-fun CurrenciesScreen(currenciesViesModel: CurrenciesViesModel = hiltViewModel(), onFilterClick: () -> Unit) {
+fun CurrenciesScreen(
+    currenciesViesModel: CurrenciesViesModel = hiltViewModel(),
+    onFilterClick: () -> Unit
+) {
     val uiState by currenciesViesModel.uiState.collectAsStateWithLifecycle()
 
     CurrenciesContent(
         uiState = uiState,
         onRetry = { currenciesViesModel.getExchangeRates(uiState.baseCurrencyName) },
         onBaseCurrencySelected = { selectedItem -> currenciesViesModel.getExchangeRates(selectedItem) },
-        onFilterClick = onFilterClick
+        onFilterClick = onFilterClick,
+        onItemFavoriteClicked = { currency, isFavorite ->
+            if (isFavorite) currenciesViesModel.addToFavorites(target = currency)
+            else currenciesViesModel.removeFromFavorites(target = currency)
+        }
     )
 }
 
@@ -60,7 +67,8 @@ private fun CurrenciesContent(
     uiState: CurrenciesUiState,
     onBaseCurrencySelected: (String) -> Unit,
     onRetry: () -> Unit,
-    onFilterClick: () -> Unit
+    onFilterClick: () -> Unit,
+    onItemFavoriteClicked: (Currency, Boolean) -> Unit
 ) {
     Scaffold(topBar = {
         AppBar(title = stringResource(R.string.currencies)) {
@@ -98,10 +106,15 @@ private fun CurrenciesContent(
         Column(Modifier.padding(innerPadding)) {
             when (uiState.currencyListUiState) {
                 is CurrencyListUiState.Loading -> CurrenciesShimmer()
-                is CurrencyListUiState.Error -> ErrorScreen(uiState.currencyListUiState.errorMessage, onRetry)
+                is CurrencyListUiState.Error -> ErrorScreen(
+                    uiState.currencyListUiState.errorMessage,
+                    onRetry
+                )
+
                 is CurrencyListUiState.Success -> Currencies(
                     items = uiState.currencyListUiState.currencyList,
-                    onItemFavoriteClicked = {})
+                    onItemFavoriteClicked = onItemFavoriteClicked
+                )
             }
 
         }
@@ -109,7 +122,7 @@ private fun CurrenciesContent(
 }
 
 @Composable
-fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency) -> Unit) {
+fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency, Boolean) -> Unit) {
     AnimatedVisibility(visible = true) {
         val itemList = remember { items.toMutableStateList() }
 
@@ -148,8 +161,7 @@ fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency) -> Unit)
                                 IconButton(onClick = {
                                     val i = itemList.indexOf(item)
                                     itemList[i] = itemList[i].copy(isFavorite = !item.isFavorite)
-
-                                    onItemFavoriteClicked(item)
+                                    onItemFavoriteClicked(item, itemList[i].isFavorite)
                                 }) {
                                     Icon(
                                         painter = if (item.isFavorite) painterResource(id = R.drawable.ic_favorites_on)

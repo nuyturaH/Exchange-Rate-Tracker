@@ -3,9 +3,12 @@ package com.harutyun.exchangeratetracker.ui.currencies
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.harutyun.domain.model.Currency
+import com.harutyun.domain.model.CurrencyPair
 import com.harutyun.domain.model.NetworkResponse
 import com.harutyun.domain.model.SortOption
+import com.harutyun.domain.usecase.AddFavoriteUseCase
 import com.harutyun.domain.usecase.GetExchangeRatesByBaseCurrencyUseCase
+import com.harutyun.domain.usecase.RemoveFavoriteUseCase
 import com.harutyun.domain.usecase.SortExchangeRatesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CurrenciesViesModel @Inject constructor(
     private val getExchangeRatesByBaseCurrencyUseCase: GetExchangeRatesByBaseCurrencyUseCase,
-    private val sortExchangeRatesUseCase: SortExchangeRatesUseCase
+    private val sortExchangeRatesUseCase: SortExchangeRatesUseCase,
+    private val addFavoriteUseCase: AddFavoriteUseCase,
+    private val removeFavoriteUseCase: RemoveFavoriteUseCase
 ) :
     ViewModel() {
 
@@ -56,7 +61,27 @@ class CurrenciesViesModel @Inject constructor(
         SortExchangeRatesUseCase()(sortOption, exchangeRates)
     }
 
+    fun addToFavorites(base: String = uiState.value.baseCurrencyName, target: Currency) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val currencyPair = CurrencyPair(
+                baseCurrencyName = base,
+                targetCurrencyName = target.name,
+                rate = target.rate
+            )
+            addFavoriteUseCase(currencyPair)
+        }
+    }
 
+    fun removeFromFavorites(base: String = uiState.value.baseCurrencyName, target: Currency) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val currencyPair = CurrencyPair(
+                baseCurrencyName = base,
+                targetCurrencyName = target.name,
+                rate = target.rate
+            )
+            removeFavoriteUseCase(currencyPair)
+        }
+    }
 
     fun getExchangeRates(base: String = uiState.value.baseCurrencyName) {
         viewModelScope.launch(Dispatchers.IO) {

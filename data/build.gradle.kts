@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -51,6 +52,11 @@ dependencies {
 
     // Okhttp
     implementation(Libs.Okhttp.loggingInterceptor)
+
+    // Room
+    annotationProcessor(Libs.AndroidX.Room.roomCompiler)
+    implementation(Libs.AndroidX.Room.roomKtx)
+    ksp(Libs.AndroidX.Room.roomCompiler)
 
     testImplementation(Libs.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.junit)

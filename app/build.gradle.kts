@@ -85,6 +85,9 @@ dependencies {
     implementation(Libs.Retrofit.retrofit)
     implementation(Libs.Retrofit.converterMoshi)
 
+    // Room
+    implementation(Libs.AndroidX.Room.roomKtx)
+
     // Test
     testImplementation(Libs.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.junit)

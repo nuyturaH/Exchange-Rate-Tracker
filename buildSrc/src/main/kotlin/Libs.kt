@@ -33,12 +33,20 @@ object Libs {
             const val navigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
         }
 
-
+        object Room {
+            private const val roomVersion = "2.5.2"
+            const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
+            const val roomKtx = "androidx.room:room-ktx:$roomVersion"
+        }
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.5"
             const val espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
         }
+    }
+
+    object KotlinX {
+        const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
     }
 
     object Dagger {
