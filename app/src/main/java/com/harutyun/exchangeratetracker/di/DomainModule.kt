@@ -3,6 +3,7 @@ package com.harutyun.exchangeratetracker.di
 import com.harutyun.domain.repository.ExchangeRatesRepository
 import com.harutyun.domain.usecase.AddFavoriteUseCase
 import com.harutyun.domain.usecase.GetExchangeRatesByBaseCurrencyUseCase
+import com.harutyun.domain.usecase.GetFavoritesUseCase
 import com.harutyun.domain.usecase.RemoveFavoriteUseCase
 import com.harutyun.domain.usecase.SortExchangeRatesUseCase
 import dagger.Module
@@ -32,6 +33,11 @@ class DomainModule {
     @Provides
     fun provideRemoveFavoriteUseCase(exchangeRatesRepository: ExchangeRatesRepository): RemoveFavoriteUseCase {
         return RemoveFavoriteUseCase(exchangeRatesRepository)
+    }
+
+    @Provides
+    fun provideGetFavoritesUseCase(exchangeRatesRepository: ExchangeRatesRepository): GetFavoritesUseCase {
+        return GetFavoritesUseCase(exchangeRatesRepository)
     }
 
 }

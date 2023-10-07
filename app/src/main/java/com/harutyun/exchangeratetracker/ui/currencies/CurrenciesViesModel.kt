@@ -8,6 +8,7 @@ import com.harutyun.domain.model.NetworkResponse
 import com.harutyun.domain.model.SortOption
 import com.harutyun.domain.usecase.AddFavoriteUseCase
 import com.harutyun.domain.usecase.GetExchangeRatesByBaseCurrencyUseCase
+import com.harutyun.domain.usecase.GetFavoritesUseCase
 import com.harutyun.domain.usecase.RemoveFavoriteUseCase
 import com.harutyun.domain.usecase.SortExchangeRatesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +25,10 @@ class CurrenciesViesModel @Inject constructor(
     private val getExchangeRatesByBaseCurrencyUseCase: GetExchangeRatesByBaseCurrencyUseCase,
     private val sortExchangeRatesUseCase: SortExchangeRatesUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
-    private val removeFavoriteUseCase: RemoveFavoriteUseCase
-) :
+    private val removeFavoriteUseCase: RemoveFavoriteUseCase,
+    private val getFavoritesUseCase: GetFavoritesUseCase,
+
+    ) :
     ViewModel() {
 
     private val _uiState = MutableStateFlow(CurrenciesUiState())
@@ -33,6 +36,8 @@ class CurrenciesViesModel @Inject constructor(
 
     init {
         getExchangeRates()
+
+        favorites()
     }
 
     fun sortExchangeRatesList(sortOption: SortOption) {
@@ -69,6 +74,32 @@ class CurrenciesViesModel @Inject constructor(
                 rate = target.rate
             )
             addFavoriteUseCase(currencyPair)
+        }
+    }
+
+    fun favorites() {
+        viewModelScope.launch {
+            getFavoritesUseCase().collect { list ->
+                val uiStateValue = uiState.value.currencyListUiState
+                if (uiStateValue is CurrencyListUiState.Success) {
+                    val mainList = uiStateValue.currencyList
+                    val targetsListToBeFavorite =
+                        list.filter { x -> x.baseCurrencyName == _uiState.value.baseCurrencyName }
+                            .map { x -> x.targetCurrencyName }
+
+                    val updatedList = mainList.map { x ->
+                        if (targetsListToBeFavorite.contains(x.name))
+                            x.copy(isFavorite = true)
+                        else
+                            x.copy(isFavorite = false)
+                    }
+                    _uiState.update {
+                        it.copy(
+                            currencyListUiState = CurrencyListUiState.Success(updatedList)
+                        )
+                    }
+                }
+            }
         }
     }
 

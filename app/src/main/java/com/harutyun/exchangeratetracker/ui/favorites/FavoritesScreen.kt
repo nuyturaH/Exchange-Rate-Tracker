@@ -14,6 +14,7 @@ import com.harutyun.exchangeratetracker.R
 import com.harutyun.exchangeratetracker.ui.components.AppBar
 import com.harutyun.exchangeratetracker.ui.currencies.Currencies
 import com.harutyun.exchangeratetracker.ui.currencies.CurrenciesShimmer
+import com.harutyun.exchangeratetracker.ui.currencies.ErrorScreen
 
 @Composable
 fun FavoritesScreen(favoritesViesModel: FavoritesViesModel = hiltViewModel()) {
@@ -21,24 +22,28 @@ fun FavoritesScreen(favoritesViesModel: FavoritesViesModel = hiltViewModel()) {
 
     FavoritesContent(
         uiState = uiState,
+        onItemFavoriteClicked = {currency, isFavorite -> if (!isFavorite) favoritesViesModel.removeFromFavorites(currency) }
     )
 }
 
 @Composable
 private fun FavoritesContent(
-    uiState: FavoritesUiState
+    uiState: FavoritesUiState,
+    onItemFavoriteClicked: (Currency, Boolean) -> Unit
 ) {
     Scaffold(topBar = {
         AppBar(title = stringResource(R.string.favorites))
     }) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
-            val list = mutableListOf<Currency>()
 
             when (uiState) {
                 is FavoritesUiState.Loading -> CurrenciesShimmer()
-                is FavoritesUiState.Success -> Currencies(
-                    items = list,
-                    onItemFavoriteClicked = {currency, b ->  })
+                is FavoritesUiState.Success -> {
+                    Currencies(
+                        items = uiState.favoritesList,
+                        onItemFavoriteClicked = {currency, isFavorite -> onItemFavoriteClicked(currency , isFavorite) })
+                }
+                is FavoritesUiState.Error -> ErrorScreen(message = uiState.errorMessage)
             }
         }
     }

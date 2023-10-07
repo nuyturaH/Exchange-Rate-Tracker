@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -107,8 +106,9 @@ private fun CurrenciesContent(
             when (uiState.currencyListUiState) {
                 is CurrencyListUiState.Loading -> CurrenciesShimmer()
                 is CurrencyListUiState.Error -> ErrorScreen(
-                    uiState.currencyListUiState.errorMessage,
-                    onRetry
+                    message = uiState.currencyListUiState.errorMessage,
+                    retryButtonVisibility = true,
+                    onRetryClicked = onRetry
                 )
 
                 is CurrencyListUiState.Success -> Currencies(
@@ -124,15 +124,14 @@ private fun CurrenciesContent(
 @Composable
 fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency, Boolean) -> Unit) {
     AnimatedVisibility(visible = true) {
-        val itemList = remember { items.toMutableStateList() }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier.fillMaxWidth(),
             content = {
-                items(count = itemList.size, key = { a -> itemList[a].name }) { index ->
-                    val item = itemList[index]
+                items(count = items.size, key = { a -> items[a].name }) { index ->
+                    val item = items[index]
                     Card(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -159,9 +158,7 @@ fun Currencies(items: List<Currency>, onItemFavoriteClicked: (Currency, Boolean)
                                 )
 
                                 IconButton(onClick = {
-                                    val i = itemList.indexOf(item)
-                                    itemList[i] = itemList[i].copy(isFavorite = !item.isFavorite)
-                                    onItemFavoriteClicked(item, itemList[i].isFavorite)
+                                    onItemFavoriteClicked(item, !item.isFavorite)
                                 }) {
                                     Icon(
                                         painter = if (item.isFavorite) painterResource(id = R.drawable.ic_favorites_on)
@@ -212,7 +209,7 @@ fun FilterButton(
 }
 
 @Composable
-fun ErrorScreen(message: String, onRetryClicked: () -> Unit) {
+fun ErrorScreen(message: String, retryButtonVisibility: Boolean = false, onRetryClicked: () -> Unit = {}) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -220,8 +217,10 @@ fun ErrorScreen(message: String, onRetryClicked: () -> Unit) {
     ) {
         Text(text = message)
         Spacer(Modifier.height(16.dp))
-        Button(onClick = { onRetryClicked() }) {
-            Text(stringResource(R.string.retry))
+        if (retryButtonVisibility) {
+            Button(onClick = { onRetryClicked() }) {
+                Text(stringResource(R.string.retry))
+            }
         }
     }
 }
